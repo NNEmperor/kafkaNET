@@ -10,14 +10,14 @@ namespace KafkaConsumer.Handlers
 {
     public class KafkaConsumerHandler : IHostedService
     {
-        private readonly string topic = "simpletalk_topic";
+        private readonly string topic = "simpletalk_topic_multiple";
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
             var conf = new ConsumerConfig
             {
                 GroupId = "st_consumer_group",
-                BootstrapServers = "localhost:9092",
+                BootstrapServers = "localhost:9092,localhost:9093",
                 AutoOffsetReset = AutoOffsetReset.Earliest
             };
             using (var builder = new ConsumerBuilder<Ignore, string>(conf).Build())
@@ -39,7 +39,7 @@ namespace KafkaConsumer.Handlers
             }
             return Task.CompletedTask;
         }
-        
+
         public Task StopAsync(CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
